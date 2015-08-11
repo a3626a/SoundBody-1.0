@@ -7,7 +7,7 @@ import com.soundbody.lib.Strings;
 
 public class ModAttributes {
 
-	public static IAttribute digspeedFactor = new RangedAttribute((IAttribute)null, Strings.attribute_digspeed_name, 1.0, 0.0, Double.MAX_VALUE).setShouldWatch(true);
-	public static IAttribute jumpFactor = new RangedAttribute((IAttribute)null, Strings.attribute_digspeed_name, 5.0, 0.0, Double.MAX_VALUE).setShouldWatch(true);
+	public static IAttribute digspeedFactor = new RangedAttribute((IAttribute)null, Strings.attribute_digspeedfactor_name, 1.0, 0.0, Double.MAX_VALUE).setShouldWatch(true);
+	public static IAttribute jumpFactor = new RangedAttribute((IAttribute)null, Strings.attribute_jumpfactor_name, 1.0, 0.0, Double.MAX_VALUE).setShouldWatch(true);
 	
 }
