@@ -5,6 +5,8 @@
 .recommenders
 org.*
 bin
+eclipse
+
 
 #idea
 *.iml
