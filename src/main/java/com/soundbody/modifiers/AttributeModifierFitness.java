@@ -3,11 +3,15 @@ package com.soundbody.modifiers;
 import java.util.UUID;
 
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class AttributeModifierFitness extends AttributeModifier {
 
-	public AttributeModifierFitness(UUID p_i1606_1_, String p_i1606_2_, double p_i1606_3_, int p_i1606_5_) {
-		super(p_i1606_1_, p_i1606_2_, p_i1606_3_, p_i1606_5_);
+	private EntityPlayer player;
+	
+	public AttributeModifierFitness(String p_i1606_2_, EntityPlayer player) {
+		super(UUID.randomUUID(), p_i1606_2_, 0, 2);
+		this.player = player;
 	}
 
 	@Override
