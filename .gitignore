@@ -2,6 +2,7 @@
 .project
 .classpath
 .metadata
+.recommenders
 org.*
 bin
 
