@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.soundbody.lib.SBReferences;
 import com.soundbody.modifiers.AttributeEventHandler;
+import com.soundbody.properties.event.ExtendedPropertyEventHandler;
 
 @Mod(modid = SBReferences.MODID, name = SBReferences.NAME, version = SBReferences.VERSION, canBeDeactivated = true)
 public class SoundBody {
@@ -30,6 +31,7 @@ public class SoundBody {
     public void init(FMLInitializationEvent event)
     {
     	MinecraftForge.EVENT_BUS.register(new AttributeEventHandler());
+    	MinecraftForge.EVENT_BUS.register(new ExtendedPropertyEventHandler());
     }
     
     @EventHandler

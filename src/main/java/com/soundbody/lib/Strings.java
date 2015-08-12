@@ -9,4 +9,5 @@ public class Strings {
 	public static final String modifier_digspeed_name = "soundbody.digspeed";
 	public static final String modifier_attackdamage_name = "soundbody.attackdamage";
 	public static final String modifier_jump_name = "soundbody.jump";
+	public static final String extendedPropertiesKey = "soundbody.extendedproperty";
 }

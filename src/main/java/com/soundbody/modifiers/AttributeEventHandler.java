@@ -9,6 +9,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.soundbody.lib.Strings;
+import com.soundbody.properties.ExtendedPropertyPlayer;
 
 public class AttributeEventHandler {
 	
