@@ -12,7 +12,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 public class ExtendedPropertyPlayer implements IExtendedEntityProperties{
 
 	private EntityPlayer player;
-	private double fitness;
+	private int fitness;
 	
 	private int fitnessCounter;
 	
@@ -22,12 +22,12 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties{
 	
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
-		compound.setDouble("fitness", fitness);
+		compound.setInteger("fitness", fitness);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound compound) {
-		fitness=compound.getDouble("fitness");
+		fitness=compound.getInteger("fitness");
 	}
 
 	@Override
@@ -42,16 +42,22 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties{
 			double hungerPercent = foodStats.getFoodLevel()/(double)modFoodStats.getMaxFoodLevel();
 			if (hungerPercent>0.75) {
 				if (fitnessCounter==0) {
-					player.addExhaustion(4.0F);
+					foodStats.addExhaustion(4.0F);
 					fitness+=1;
 					fitnessCounter=60*20;
 				}
 			}
 			if (hungerPercent<0.50) {
-				
+				foodStats.setFoodSaturationLevel(foodStats.getSaturationLevel()+1.0F);
+				fitness-=1;
+				fitnessCounter=60*20;
 			}
 		}
 		if (fitnessCounter>0) fitnessCounter--;
 	}
 
+	public int getFitness() {
+		return fitness;
+	}
+	
 }

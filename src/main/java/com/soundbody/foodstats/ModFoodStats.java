@@ -5,15 +5,20 @@ import java.lang.reflect.Field;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.FoodStats;
 
+import com.soundbody.lib.Strings;
+import com.soundbody.properties.ExtendedPropertyPlayer;
+
 public class ModFoodStats extends FoodStats {
 
-	private int maxFoodLevel = 20;
 	private EntityPlayer player;
+	private ExtendedPropertyPlayer property;
 	private static Field foodLevel;
 	private static Field foodSaturationLevel;
+	private static double factor = Math.log(2)/20.0;
 	
 	public ModFoodStats(EntityPlayer player, FoodStats foodStats) throws NoSuchFieldException, SecurityException {
 		this.player = player;
+		property = (ExtendedPropertyPlayer) this.player.getExtendedProperties(Strings.extendedPropertiesKey);
 		
 		foodLevel = FoodStats.class.getDeclaredField("foodLevel");
 		foodLevel.setAccessible(true);
@@ -32,17 +37,21 @@ public class ModFoodStats extends FoodStats {
 
 	@Override
 	public void addStats(int foodLevelIn, float foodSaturationModifier) {
-		setFoodLevel(Math.min(foodLevelIn + this.getFoodLevel(), maxFoodLevel));
+		setFoodLevel(Math.min(foodLevelIn + this.getFoodLevel(), getMaxFoodLevel()));
 		setFoodSaturationLevel(Math.min(this.getSaturationLevel() + (float) foodLevelIn * foodSaturationModifier * 2.0F, (float) this.getFoodLevel()));
 	}
 
 	@Override
 	public boolean needFood() {
-		return getFoodLevel() < maxFoodLevel;
+		return getFoodLevel() < getMaxFoodLevel();
 	}
 
+	@Override
+	public void addExhaustion(float p_75113_1_) {
+		super.addExhaustion((float) (p_75113_1_*Math.exp(factor*property.getFitness())));
+	}
+	
 	public int getMaxFoodLevel() {
-		return maxFoodLevel;
+		return 20+property.getFitness();
 	}
-
 }
