@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import com.soundbody.foodstats.ModFoodStatsHandler;
 import com.soundbody.lib.SBReferences;
 import com.soundbody.modifiers.AttributeEventHandler;
 import com.soundbody.properties.event.ExtendedPropertyEventHandler;
@@ -30,8 +31,11 @@ public class SoundBody {
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+    	ModFoodStatsHandler.init();
+    	
     	MinecraftForge.EVENT_BUS.register(new AttributeEventHandler());
     	MinecraftForge.EVENT_BUS.register(new ExtendedPropertyEventHandler());
+    	MinecraftForge.EVENT_BUS.register(new ModFoodStatsHandler());
     }
     
     @EventHandler
