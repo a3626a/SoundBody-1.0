@@ -12,8 +12,8 @@ public class AttributeModifierFitness extends AttributeModifier {
 
 	private EntityPlayer player;
 	private ExtendedPropertyPlayer property;
-	private static double factor = Math.log(1.5)/20.0;
-	
+	private static double factor = Math.log(1.5) / 20.0;
+
 	public AttributeModifierFitness(String p_i1606_2_, int operation, EntityPlayer player) {
 		super(UUID.randomUUID(), p_i1606_2_, 0, operation);
 		this.player = player;
@@ -30,16 +30,16 @@ public class AttributeModifierFitness extends AttributeModifier {
 			return property;
 		}
 	}
-	
+
 	@Override
 	public double getAmount() {
 		switch (this.getOperation()) {
 		case 0:
-			return property.getFitness()/100;
+			return property.getFitness() / 100;
 		case 1:
-			return Math.exp(factor*property.getFitness());
+			return Math.exp(factor * property.getFitness()) - 1;
 		}
 		return super.getAmount();
 	}
-	
+
 }

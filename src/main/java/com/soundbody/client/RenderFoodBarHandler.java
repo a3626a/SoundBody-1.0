@@ -45,10 +45,10 @@ public class RenderFoodBarHandler extends Gui {
 	        int level = stats.getFoodLevel();
 	        int levelLast = stats.getPrevFoodLevel();
 	        
-	        int cell = 20;
+	        int cell = 10;
 	        if (modStats != null) cell = modStats.getMaxFoodLevel()/2;
 	        
-	        for (int i = 0; i < 20; ++i)
+	        for (int i = 0; i < cell; ++i)
 	        {
 	            int idx = i * 2 + 1;
 	            int x = left - (i%10) * 8 - 9;
