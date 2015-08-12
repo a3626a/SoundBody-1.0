@@ -11,10 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 public class AttributeModifierFitness extends AttributeModifier {
 
 	private EntityPlayer player;
+	private ExtendedPropertyPlayer property;
+	private static double factor = Math.log(1.5)/20.0;
 	
-	public AttributeModifierFitness(String p_i1606_2_, EntityPlayer player) {
-		super(UUID.randomUUID(), p_i1606_2_, 0, 2);
+	public AttributeModifierFitness(String p_i1606_2_, int operation, EntityPlayer player) {
+		super(UUID.randomUUID(), p_i1606_2_, 0, operation);
 		this.player = player;
+		property = (ExtendedPropertyPlayer) player.getExtendedProperties(Strings.extendedPropertiesKey);
 	}
 
 	public ExtendedPropertyPlayer getProperty() {
@@ -30,7 +33,12 @@ public class AttributeModifierFitness extends AttributeModifier {
 	
 	@Override
 	public double getAmount() {
-		
+		switch (this.getOperation()) {
+		case 0:
+			return property.getFitness()/100;
+		case 1:
+			return Math.exp(factor*property.getFitness());
+		}
 		return super.getAmount();
 	}
 	

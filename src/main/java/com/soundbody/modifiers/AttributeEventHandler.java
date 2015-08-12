@@ -26,10 +26,10 @@ public class AttributeEventHandler {
 	public void applyModifier(EntityJoinWorldEvent event) {
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)event.entity;
-			player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifierFitness(Strings.modifier_movespeed_name, player));
-			player.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifierFitness(Strings.modifier_attackdamage_name, player));
-			player.getEntityAttribute(ModAttributes.digspeedFactor).applyModifier(new AttributeModifierFitness(Strings.modifier_digspeed_name, player));
-			player.getEntityAttribute(ModAttributes.jumpFactor).applyModifier(new AttributeModifierFitness(Strings.modifier_jump_name, player));
+			player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifierFitness(Strings.modifier_movespeed_name, 1, player));
+			player.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifierFitness(Strings.modifier_attackdamage_name, 1, player));
+			player.getEntityAttribute(ModAttributes.digspeedFactor).applyModifier(new AttributeModifierFitness(Strings.modifier_digspeed_name, 0, player));
+			player.getEntityAttribute(ModAttributes.jumpFactor).applyModifier(new AttributeModifierFitness(Strings.modifier_jump_name, 0, player));
 		}
 	}
 	
