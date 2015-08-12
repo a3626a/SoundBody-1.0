@@ -29,7 +29,7 @@ public class SoundBody {
     }
 	
     @EventHandler
-    public void init(FMLInitializationEvent event)
+    public void init(FMLInitializationEvent event) throws NoSuchFieldException, SecurityException
     {
     	ModFoodStatsHandler.init();
     	
