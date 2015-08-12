@@ -2,6 +2,7 @@ package com.soundbody.foodstats;
 
 import java.lang.reflect.Field;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.FoodStats;
 
 public class ModFoodStats extends FoodStats {
@@ -10,11 +11,20 @@ public class ModFoodStats extends FoodStats {
 	private static Field foodLevel;
 	private static Field foodSaturationLevel;
 	
-	public ModFoodStats() throws NoSuchFieldException, SecurityException {
+	public ModFoodStats(FoodStats foodStats) throws NoSuchFieldException, SecurityException {
 		foodLevel = FoodStats.class.getDeclaredField("foodLevel");
 		foodLevel.setAccessible(true);
 		foodSaturationLevel = FoodStats.class.getDeclaredField("foodSaturationLevel");
 		foodSaturationLevel.setAccessible(true);
+		
+		for (Field i : FoodStats.class.getDeclaredFields()) {
+			try {
+				i.setAccessible(true);
+				i.set(this, i.get(foodStats));
+			} catch (IllegalArgumentException e) {
+			} catch (IllegalAccessException e) {
+			}
+		}
 	}
 	
 	@Override
@@ -37,4 +47,5 @@ public class ModFoodStats extends FoodStats {
 	public int getMaxFoodLevel() {
 		return maxFoodLevel;
 	}
+	
 }

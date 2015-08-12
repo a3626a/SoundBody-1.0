@@ -22,7 +22,7 @@ public class ModFoodStatsHandler {
 	public void onEntityConstructing(EntityJoinWorldEvent event) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)event.entity;
-			foodstats.set(player, new ModFoodStats());
+			foodstats.set(player, new ModFoodStats(player.getFoodStats()));
 		}
 	}
 }
