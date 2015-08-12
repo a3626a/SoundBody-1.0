@@ -23,7 +23,6 @@ public class ModFoodStatsHandler {
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)event.entity;
 			foodstats.set(player, new ModFoodStats());
-			System.out.println("Register");
 		}
 	}
 }
