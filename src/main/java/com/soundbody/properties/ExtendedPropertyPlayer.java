@@ -8,7 +8,8 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class ExtendedPropertyPlayer implements IExtendedEntityProperties{
 
-	EntityPlayer player;
+	private EntityPlayer player;
+	private double fitness;
 	
 	public ExtendedPropertyPlayer(EntityPlayer player) {
 		this.player = player;
@@ -33,7 +34,6 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties{
 
 	public void update() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
