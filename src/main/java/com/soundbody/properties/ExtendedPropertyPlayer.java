@@ -41,7 +41,6 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	}
 
 	public void update() {
-
 		if (!player.worldObj.isRemote) {
 			lastFitness = fitness;
 
