@@ -2,6 +2,9 @@ package com.soundbody.modifiers;
 
 import java.util.UUID;
 
+import com.soundbody.lib.Strings;
+import com.soundbody.properties.ExtendedPropertyPlayer;
+
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -14,8 +17,20 @@ public class AttributeModifierFitness extends AttributeModifier {
 		this.player = player;
 	}
 
+	public ExtendedPropertyPlayer getProperty() {
+		ExtendedPropertyPlayer property = (ExtendedPropertyPlayer) player.getExtendedProperties(Strings.extendedPropertiesKey);
+		if (property != null) {
+			return property;
+		} else {
+			property = new ExtendedPropertyPlayer(this.player);
+			player.registerExtendedProperties(Strings.extendedPropertiesKey, property);
+			return property;
+		}
+	}
+	
 	@Override
 	public double getAmount() {
+		
 		return super.getAmount();
 	}
 	

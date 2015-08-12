@@ -14,11 +14,12 @@ public class ExtendedPropertyEventHandler {
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {
 		if (event.entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)event.entity;
-			player.registerExtendedProperties(Strings.extendedPropertiesKey, new ExtendedPropertyPlayer());
+			EntityPlayer player = (EntityPlayer) event.entity;
+			if (player.getExtendedProperties(Strings.extendedPropertiesKey) == null)
+				player.registerExtendedProperties(Strings.extendedPropertiesKey, new ExtendedPropertyPlayer(player));
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onLivingEntityUpdate(LivingEvent.LivingUpdateEvent event) {
 		EntityLivingBase entity = event.entityLiving;

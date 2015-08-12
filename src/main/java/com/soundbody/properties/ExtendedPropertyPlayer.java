@@ -10,6 +10,10 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties{
 
 	EntityPlayer player;
 	
+	public ExtendedPropertyPlayer(EntityPlayer player) {
+		this.player = player;
+	}
+	
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
 		// TODO Auto-generated method stub
