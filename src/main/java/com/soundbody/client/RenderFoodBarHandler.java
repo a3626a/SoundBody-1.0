@@ -1,5 +1,7 @@
 package com.soundbody.client;
 
+import com.soundbody.foodstats.ModFoodStats;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -35,14 +37,22 @@ public class RenderFoodBarHandler extends Gui {
 	        boolean unused = false;// Unused flag in vanilla, seems to be part of a 'fade out' mechanic
 
 	        FoodStats stats = mc.thePlayer.getFoodStats();
+	        ModFoodStats modStats = null;
+	        if (stats instanceof ModFoodStats) {
+	        	modStats = (ModFoodStats)stats;
+	        }
+		
 	        int level = stats.getFoodLevel();
 	        int levelLast = stats.getPrevFoodLevel();
-
+	        
+	        int cell = 20;
+	        if (modStats != null) cell = modStats.getMaxFoodLevel()/2;
+	        
 	        for (int i = 0; i < 20; ++i)
 	        {
 	            int idx = i * 2 + 1;
-	            int x = left - i * 8 - 9;
-	            int y = top;
+	            int x = left - (i%10) * 8 - 9;
+	            int y = top - 8*(i/10);
 	            int icon = 16;
 	            byte backgound = 0;
 

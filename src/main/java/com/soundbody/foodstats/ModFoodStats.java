@@ -34,4 +34,7 @@ public class ModFoodStats extends FoodStats {
 		return getFoodLevel() < maxFoodLevel;
 	}
 	
+	public int getMaxFoodLevel() {
+		return maxFoodLevel;
+	}
 }
