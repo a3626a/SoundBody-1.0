@@ -18,7 +18,9 @@ import com.soundbody.foodstats.ModFoodStatsHandler;
 import com.soundbody.lib.SBReferences;
 import com.soundbody.modifiers.AttributeEventHandler;
 import com.soundbody.network.HandlerGeneralClient;
+import com.soundbody.network.HandlerGeneralServer;
 import com.soundbody.network.PacketGeneralClient;
+import com.soundbody.network.PacketGeneralServer;
 import com.soundbody.properties.event.ExtendedPropertyEventHandler;
 
 @Mod(modid = SBReferences.MODID, name = SBReferences.NAME, version = SBReferences.VERSION, canBeDeactivated = true)
@@ -47,7 +49,8 @@ public class SoundBody {
     	MinecraftForge.EVENT_BUS.register(new RenderFoodBarHandler());
     	
     	simpleChannel = NetworkRegistry.INSTANCE.newSimpleChannel(SBReferences.NAME);
-		simpleChannel.registerMessage(HandlerGeneralClient.class, PacketGeneralClient.class, 5, Side.CLIENT);
+    	simpleChannel.registerMessage(HandlerGeneralServer.class, PacketGeneralServer.class, 0, Side.SERVER);
+		simpleChannel.registerMessage(HandlerGeneralClient.class, PacketGeneralClient.class, 1, Side.CLIENT);
     }
     
     @EventHandler

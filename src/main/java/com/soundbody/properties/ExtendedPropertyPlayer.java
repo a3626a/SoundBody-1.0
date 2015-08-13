@@ -27,8 +27,13 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	private int fitnessCounter = fitnessCounterPeriod;
 
 	private static double factor = Math.log(1.5) / 20.0;
-	public static int fitnessCounterPeriod = 5*60*20;
+	public static int fitnessCounterPeriod = 20;
 
+	public void set(ExtendedPropertyPlayer property) {
+		this.fitness = property.fitness;
+		this.fitnessCounter = property.fitnessCounter;
+	}
+	
 	public ExtendedPropertyPlayer(EntityPlayer player) {
 		this.player = player;
 	}
@@ -48,12 +53,12 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	@Override
 	public void init(Entity entity, World world) {
 		player = (EntityPlayer) entity;
+		
+		
 	}
 
 	public void update() {
 		if (!player.worldObj.isRemote) {
-			lastFitness = fitness;
-
 			FoodStats foodStats = player.getFoodStats();
 			if (foodStats instanceof ModFoodStats) {
 				ModFoodStats modFoodStats = (ModFoodStats) foodStats;
@@ -75,28 +80,11 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 			}
 			if (fitnessCounter > 0)
 				fitnessCounter--;
-
+			
 			if (lastFitness != fitness) {
-				PacketGeneralClient msg = new PacketGeneralClient(0);
-				msg.setInt(fitness);
-				SoundBody.simpleChannel.sendTo(msg, MinecraftServer.getServer().getConfigurationManager().getPlayerByUUID(player.getUniqueID()));
-				
-				player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_movementSpeed_uuid), Strings.modifier_movespeed_name, getAmount(1), 1));
-				player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_movementSpeed_uuid), Strings.modifier_movespeed_name, getAmount(1), 1));
-
-				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_maxHealth_uuid), Strings.modifier_maxHealth_name, getAmount(1), 1));
-				player.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_maxHealth_uuid), Strings.modifier_maxHealth_name, getAmount(1), 1));
-				
-				player.getEntityAttribute(SharedMonsterAttributes.attackDamage).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_attackdamage_uuid), Strings.modifier_attackdamage_name, getAmount(1), 1));
-				player.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_attackdamage_uuid), Strings.modifier_attackdamage_name, getAmount(1), 1));
-				
-				player.getEntityAttribute(ModAttributes.digspeedFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, getAmount(0), 0));
-				player.getEntityAttribute(ModAttributes.digspeedFactor).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, getAmount(0), 0));
-				
-				player.getEntityAttribute(ModAttributes.jumpFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, getAmount(0), 0));
-				player.getEntityAttribute(ModAttributes.jumpFactor).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, getAmount(0), 0));
-
+				sync();
 			}
+			lastFitness = fitness;
 		}
 	}
 
@@ -116,6 +104,27 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 
 	public void sync(PacketGeneralClient packet) {
 		fitness = packet.getInt();
+	}
+	
+	private void sync() {
+		PacketGeneralClient msg = new PacketGeneralClient(0);
+		msg.setInt(fitness);
+		SoundBody.simpleChannel.sendTo(msg, MinecraftServer.getServer().getConfigurationManager().getPlayerByUUID(player.getUniqueID()));
+		
+		player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_movementSpeed_uuid), Strings.modifier_movespeed_name, getAmount(1), 1));
+		player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_movementSpeed_uuid), Strings.modifier_movespeed_name, getAmount(1), 1));
+
+		player.getEntityAttribute(SharedMonsterAttributes.maxHealth).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_maxHealth_uuid), Strings.modifier_maxHealth_name, getAmount(1), 1));
+		player.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_maxHealth_uuid), Strings.modifier_maxHealth_name, getAmount(1), 1));
+		
+		player.getEntityAttribute(SharedMonsterAttributes.attackDamage).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_attackdamage_uuid), Strings.modifier_attackdamage_name, getAmount(1), 1));
+		player.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_attackdamage_uuid), Strings.modifier_attackdamage_name, getAmount(1), 1));
+		
+		player.getEntityAttribute(ModAttributes.digspeedFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, getAmount(0), 0));
+		player.getEntityAttribute(ModAttributes.digspeedFactor).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, getAmount(0), 0));
+		
+		player.getEntityAttribute(ModAttributes.jumpFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, getAmount(0), 0));
+		player.getEntityAttribute(ModAttributes.jumpFactor).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, getAmount(0), 0));
 	}
 
 }
