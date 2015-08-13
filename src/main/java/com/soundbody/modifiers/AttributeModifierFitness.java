@@ -14,8 +14,8 @@ public class AttributeModifierFitness extends AttributeModifier {
 	private ExtendedPropertyPlayer property;
 	private static double factor = Math.log(1.5) / 20.0;
 
-	public AttributeModifierFitness(String p_i1606_2_, int operation, EntityPlayer player) {
-		super(UUID.randomUUID(), p_i1606_2_, 0, operation);
+	public AttributeModifierFitness(UUID uuid, String p_i1606_2_, int operation, EntityPlayer player) {
+		super(uuid, p_i1606_2_, 0, operation);
 		this.player = player;
 		property = (ExtendedPropertyPlayer) player.getExtendedProperties(Strings.extendedPropertiesKey);
 	}

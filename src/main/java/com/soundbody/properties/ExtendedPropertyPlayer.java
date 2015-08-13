@@ -52,13 +52,15 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 					if (fitnessCounter == 0) {
 						foodStats.addExhaustion(4.0F);
 						fitness += 1;
-						fitnessCounter = 60 * 20;
+						fitnessCounter = 10 * 20;
 					}
 				}
 				if (hungerPercent < 0.50) {
-					foodStats.setFoodSaturationLevel(foodStats.getSaturationLevel() + 1.0F);
-					fitness -= 1;
-					fitnessCounter = 60 * 20;
+					if (fitnessCounter == 0) {
+						foodStats.setFoodSaturationLevel(foodStats.getSaturationLevel() + 1.0F);
+						fitness -= 1;
+						fitnessCounter = 10 * 20;
+					}
 				}
 			}
 			if (fitnessCounter > 0)

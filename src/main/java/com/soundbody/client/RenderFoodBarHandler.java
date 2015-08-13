@@ -49,7 +49,7 @@ public class RenderFoodBarHandler extends Gui {
 	        int levelLast = stats.getPrevFoodLevel();
 	        
 	        int cell = 10;
-	        if (modStats != null) cell = modStats.getMaxFoodLevel()/2;
+	        if (modStats != null) cell = (modStats.getMaxFoodLevel()+1)/2;
 	        
 	        if(cell <= 10)
 	        	GuiIngameForge.right_height += 10;
@@ -76,6 +76,8 @@ public class RenderFoodBarHandler extends Gui {
 	                y = top + (rand.nextInt(3) - 1);
 	            }
 	            */
+	            // This code make 'jumping' icons. but it is very difficult to define updateCounter... should do
+	            
 	            
 	            drawTexturedModalRect(x, y, 16 + backgound * 9, 27, 9, 9);
 
