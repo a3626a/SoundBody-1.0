@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.FoodStats;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -18,8 +19,10 @@ public class RenderFoodBarHandler extends Gui {
     public static int right_height = 39;
 	
 	@SubscribeEvent
-	public void renderFoodBar(RenderGameOverlayEvent event) {
+	public void renderFoodBar(RenderGameOverlayEvent.Pre event) {
 		if (event.type == ElementType.FOOD) {
+			event.setCanceled(true);
+
 			right_height = 39;
 	        left_height = 39;
 			
@@ -44,6 +47,10 @@ public class RenderFoodBarHandler extends Gui {
 		
 	        int level = stats.getFoodLevel();
 	        int levelLast = stats.getPrevFoodLevel();
+	        
+	        if(level <= 20)
+	        	GuiIngameForge.right_height += 10;
+	        else GuiIngameForge.right_height += 18;
 	        
 	        int cell = 10;
 	        if (modStats != null) cell = modStats.getMaxFoodLevel()/2;
@@ -87,7 +94,6 @@ public class RenderFoodBarHandler extends Gui {
 	        }
 	        GlStateManager.disableBlend();
 	        mc.mcProfiler.endSection();
-	        event.setCanceled(true);
 		}
 	}
 	
