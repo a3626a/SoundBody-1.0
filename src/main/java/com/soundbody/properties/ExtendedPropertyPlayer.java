@@ -24,7 +24,7 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	private int fitness;
 	private int lastFitness;
 
-	private int fitnessCounter;
+	private int fitnessCounter = fitnessCounterPeriod;
 
 	private static double factor = Math.log(1.5) / 20.0;
 	public static int fitnessCounterPeriod = 5*60*20;
