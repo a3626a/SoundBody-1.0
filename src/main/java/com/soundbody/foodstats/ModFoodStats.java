@@ -67,17 +67,17 @@ public class ModFoodStats extends FoodStats {
         {
         	setFoodExaustionLevel(getFoodExaustionLevel()-4.0F);
 
-            if (getFoodExaustionLevel() > 0.0F)
+            if (getSaturationLevel() > 0.0F)
             {
-            	setFoodExaustionLevel(Math.max(getFoodExaustionLevel() - 1.0F, 0.0F));
+            	setFoodSaturationLevel(Math.max(getSaturationLevel() - 1.0F, 0.0F));
             }
             else if (enumdifficulty != EnumDifficulty.PEACEFUL)
             {
-            	setPrevFoodLevel(Math.max(getPrevFoodLevel() - 1, 0));
+            	setFoodLevel(Math.max(getFoodLevel() - 1, 0));
             }
         }
 
-        if (player.worldObj.getGameRules().getGameRuleBooleanValue("naturalRegeneration") && getPrevFoodLevel() >= getMaxFoodLevel()*0.9 && player.shouldHeal())
+        if (player.worldObj.getGameRules().getGameRuleBooleanValue("naturalRegeneration") && getFoodLevel() >= getMaxFoodLevel()*0.9 && player.shouldHeal())
         {
            incrementFoodTimer();
 
@@ -88,7 +88,7 @@ public class ModFoodStats extends FoodStats {
                 initFoodTimer();
             }
         }
-        else if (getPrevFoodLevel() <= 0)
+        else if (getFoodLevel() <= 0)
         {
         	incrementFoodTimer();
 
