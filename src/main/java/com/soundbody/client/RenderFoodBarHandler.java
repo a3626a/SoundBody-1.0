@@ -48,12 +48,14 @@ public class RenderFoodBarHandler extends Gui {
 	        int level = stats.getFoodLevel();
 	        int levelLast = stats.getPrevFoodLevel();
 	        
-	        if(level <= 20)
-	        	GuiIngameForge.right_height += 10;
-	        else GuiIngameForge.right_height += 18;
+	        
 	        
 	        int cell = 10;
 	        if (modStats != null) cell = modStats.getMaxFoodLevel()/2;
+	        
+	        if(cell <= 10)
+	        	GuiIngameForge.right_height += 10;
+	        else GuiIngameForge.right_height += 18;
 	        
 	        for (int i = 0; i < cell; ++i)
 	        {
