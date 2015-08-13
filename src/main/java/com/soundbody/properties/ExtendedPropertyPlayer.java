@@ -22,13 +22,13 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 
 	private EntityPlayer player;
 	private int fitness;
-	private int lastFitness;
+	private int lastFitness=-1;
 
 	private int fitnessCounter = fitnessCounterPeriod;
 
 	private static double factor = Math.log(1.5) / 20.0;
 	public static int fitnessLossOnDeath = 4;
-	public static int fitnessCounterPeriod = 5*60*20;
+	public static int fitnessCounterPeriod = 20;
 
 	public void setClone(ExtendedPropertyPlayer property) {
 		this.fitness = property.fitness-fitnessLossOnDeath;
@@ -54,8 +54,6 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	@Override
 	public void init(Entity entity, World world) {
 		player = (EntityPlayer) entity;
-		
-		
 	}
 
 	public void update() {
@@ -92,7 +90,7 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	public double getAmount(int operation) {
 		switch (operation) {
 		case 0:
-			return getFitness() / 100;
+			return getFitness() / 100.0;
 		case 1:
 			return Math.exp(factor * getFitness()) - 1;
 		}
@@ -123,7 +121,7 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 		
 		player.getEntityAttribute(ModAttributes.digspeedFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, getAmount(0), 0));
 		player.getEntityAttribute(ModAttributes.digspeedFactor).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, getAmount(0), 0));
-		
+	
 		player.getEntityAttribute(ModAttributes.jumpFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, getAmount(0), 0));
 		player.getEntityAttribute(ModAttributes.jumpFactor).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, getAmount(0), 0));
 	}
