@@ -18,7 +18,7 @@ public class ExtendedPropertyEventHandler {
 	public void onEntityConing(PlayerEvent.Clone event) {
 		ExtendedPropertyPlayer propertyOld = (ExtendedPropertyPlayer) event.original.getExtendedProperties(Strings.extendedPropertiesKey);
 		ExtendedPropertyPlayer propertyNew = (ExtendedPropertyPlayer) event.entityPlayer.getExtendedProperties(Strings.extendedPropertiesKey);
-		propertyNew.set(propertyOld);
+		propertyNew.setClone(propertyOld);
 	}
 
 	@SubscribeEvent

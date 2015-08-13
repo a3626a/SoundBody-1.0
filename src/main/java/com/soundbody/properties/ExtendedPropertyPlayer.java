@@ -27,10 +27,11 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	private int fitnessCounter = fitnessCounterPeriod;
 
 	private static double factor = Math.log(1.5) / 20.0;
-	public static int fitnessCounterPeriod = 20;
+	public static int fitnessLossOnDeath = 4;
+	public static int fitnessCounterPeriod = 5*60*20;
 
-	public void set(ExtendedPropertyPlayer property) {
-		this.fitness = property.fitness;
+	public void setClone(ExtendedPropertyPlayer property) {
+		this.fitness = property.fitness-fitnessLossOnDeath;
 		this.fitnessCounter = property.fitnessCounter;
 	}
 	
