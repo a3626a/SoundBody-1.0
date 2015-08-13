@@ -26,7 +26,8 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 
 	private int fitnessCounter = fitnessCounterPeriod;
 
-	private static double factor = Math.log(1.5) / 20.0;
+	private static double expFactor = Math.log(1.5) / 20.0;
+	private static double addFactor = 1 / 40.0;
 	public static int fitnessLossOnDeath = 4;
 	public static int fitnessCounterPeriod = 20;
 
@@ -90,9 +91,9 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	public double getAmount(int operation) {
 		switch (operation) {
 		case 0:
-			return getFitness() / 100.0;
+			return addFactor*getFitness();
 		case 1:
-			return Math.exp(factor * getFitness()) - 1;
+			return Math.exp(expFactor * getFitness()) - 1;
 		}
 		return 0;
 	}
