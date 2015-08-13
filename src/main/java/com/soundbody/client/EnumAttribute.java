@@ -26,7 +26,7 @@ public enum EnumAttribute {
 	
 	public double getRate(EntityPlayer player) {
 		IAttributeInstance instance = player.getEntityAttribute(attribute);
-		return instance.getAttributeValue() / instance.getAttributeValue();
+		return instance.getAttributeValue() / instance.getBaseValue();
 	}
 	
 	public String getName() {
