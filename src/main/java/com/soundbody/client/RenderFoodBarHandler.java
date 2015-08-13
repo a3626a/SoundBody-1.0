@@ -135,9 +135,7 @@ public class RenderFoodBarHandler extends Gui {
 				y = centerY + rate * radius * Math.sin(angle);
 								
 				angle += 2 * Math.PI / EnumAttribute.values().length;
-				
-				drawRect((int)(x-3), (int)(y-3), (int)(x+3), (int)(y+3), attribute.getColor());
-				
+								
 				if(flag)
 					drawLine(preX, preY, x, y, 0xffffffff);
 								
@@ -161,6 +159,7 @@ public class RenderFoodBarHandler extends Gui {
 				x = centerX + rate * (radius+2.0) * Math.cos(angle);
 				y = centerY + rate * (radius+2.0) * Math.sin(angle);
 				
+				drawRect((int)(x-3), (int)(y-3), (int)(x+3), (int)(y+3), attribute.getColor());
 				this.drawCenteredString(mc.fontRendererObj, attribute.getName(), (int)x, (int)y, attribute.getColor());
 				
 				angle += 2 * Math.PI / EnumAttribute.values().length;
