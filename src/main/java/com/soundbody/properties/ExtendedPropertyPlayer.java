@@ -27,6 +27,7 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	private int fitnessCounter;
 
 	private static double factor = Math.log(1.5) / 20.0;
+	public static int fitnessCounterPeriod = 5*60*20;
 
 	public ExtendedPropertyPlayer(EntityPlayer player) {
 		this.player = player;
@@ -61,14 +62,14 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 					if (fitnessCounter == 0) {
 						foodStats.addExhaustion(4.0F);
 						fitness += 1;
-						fitnessCounter = 20;
+						fitnessCounter = fitnessCounterPeriod;
 					}
 				}
 				if (hungerPercent < 0.50) {
 					if (fitnessCounter == 0) {
 						foodStats.setFoodSaturationLevel(foodStats.getSaturationLevel() + 1.0F);
 						fitness -= 1;
-						fitnessCounter = 20;
+						fitnessCounter = fitnessCounterPeriod;
 					}
 				}
 			}
