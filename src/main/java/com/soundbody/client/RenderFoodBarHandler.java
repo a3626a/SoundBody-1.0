@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.FoodStats;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -53,17 +54,22 @@ public class RenderFoodBarHandler extends Gui {
 
 			int level = stats.getFoodLevel();
 			int levelLast = stats.getPrevFoodLevel();
-
+			
 			int cell = 10;
 			if (modStats != null)
 				cell = (modStats.getMaxFoodLevel() + 1) / 2;
+			
+			int rowNum = MathHelper.ceiling_double_int(cell / 10.0);
+			
+	        int rowHeight = Math.max(10 - (rowNum - 2), 3);
 
-			GuiIngameForge.right_height += 10 + 8 * ((cell - 1) / 10);
+			GuiIngameForge.right_height += (rowNum * rowHeight);
+	        if (rowHeight != 10) right_height += 10 - rowHeight;
 
 			for (int i = 0; i < cell; ++i) {
 				int idx = i * 2 + 1;
 				int x = left - (i % 10) * 8 - 9;
-				int y = top - 8 * (i / 10);
+				int y = top - rowHeight * (i / 10);
 				int icon = 16;
 				byte backgound = 0;
 
@@ -141,12 +147,24 @@ public class RenderFoodBarHandler extends Gui {
 				flag = true;
 			}
 			
-			EnumAttribute attribute = EnumAttribute.values()[0];
-			rate = attribute.getRate(player);
+			EnumAttribute attribute2 = EnumAttribute.values()[0];
+			rate = attribute2.getRate(player);
 			x = centerX + rate * radius * Math.cos(angle);
 			y = centerY + rate * radius * Math.sin(angle);
 			
 			drawLine(preX, preY, x, y, 0xffffffff);
+			
+			
+			for(EnumAttribute attribute : EnumAttribute.values()) {
+				rate = attribute.getRate(player);
+				
+				x = centerX + rate * (radius+2.0) * Math.cos(angle);
+				y = centerY + rate * (radius+2.0) * Math.sin(angle);
+				
+				this.drawCenteredString(mc.fontRendererObj, attribute.getName(), (int)x, (int)y, attribute.getColor());
+				
+				angle += 2 * Math.PI / EnumAttribute.values().length;
+			}
 		}
 	}
 	

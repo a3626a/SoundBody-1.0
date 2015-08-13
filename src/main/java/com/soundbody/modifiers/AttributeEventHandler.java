@@ -33,7 +33,7 @@ public class AttributeEventHandler {
 	public void attributeJump(LivingJumpEvent event) {
 		if (event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			player.motionY *= player.getEntityAttribute(ModAttributes.jumpFactor).getAttributeValue();
+			player.motionY *= Math.sqrt(player.getEntityAttribute(ModAttributes.jumpFactor).getAttributeValue());
 		}
 	}
 }
