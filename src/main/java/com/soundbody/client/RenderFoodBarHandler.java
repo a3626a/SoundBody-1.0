@@ -97,4 +97,10 @@ public class RenderFoodBarHandler extends Gui {
 		}
 	}
 	
+	@SubscribeEvent
+	public void renderFoodAttributeBar(RenderGameOverlayEvent.Post event) {
+		if(event.type == ElementType.ALL) {
+			
+		}
+	}
 }
