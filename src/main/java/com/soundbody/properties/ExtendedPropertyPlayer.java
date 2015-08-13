@@ -28,11 +28,13 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	@Override
 	public void saveNBTData(NBTTagCompound compound) {
 		compound.setInteger("fitness", fitness);
+		compound.setInteger("fitnessCounter", fitnessCounter);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound compound) {
 		fitness = compound.getInteger("fitness");
+		fitnessCounter = compound.getInteger("fitnessCounter");
 	}
 
 	@Override
