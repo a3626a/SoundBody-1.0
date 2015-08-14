@@ -39,7 +39,6 @@ public class RenderFoodBarHandler extends Gui {
 
 			mc.mcProfiler.startSection("food");
 
-			EntityPlayer player = (EntityPlayer) mc.getRenderViewEntity();
 			GlStateManager.enableBlend();
 			int left = width / 2 + 91;
 			int top = height - right_height;
