@@ -2,7 +2,6 @@ package com.soundbody.foodstats;
 
 import java.lang.reflect.Field;
 
-import scala.collection.script.Update;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;

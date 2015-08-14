@@ -32,7 +32,7 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	public static int fitnessCounterPeriod = 20;
 
 	public void setClone(ExtendedPropertyPlayer property) {
-		this.fitness = property.fitness-fitnessLossOnDeath;
+		this.fitness = property.fitness;
 		this.fitnessCounter = property.fitnessCounter;
 	}
 	
@@ -98,6 +98,10 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 		return 0;
 	}
 
+	public void setFitness(int fitness) {
+		this.fitness = fitness;
+	}
+	
 	public int getFitness() {
 		return fitness;
 	}
