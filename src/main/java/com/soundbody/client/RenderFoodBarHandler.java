@@ -127,10 +127,10 @@ public class RenderFoodBarHandler extends Gui {
 			double preX = 0.0, preY = 0.0;
 			double rate;
 			boolean flag = false;
-			
+						
 			for(EnumAttribute attribute : EnumAttribute.values()) {
 				rate = attribute.getRate(player);
-				
+
 				x = centerX + rate * radius * Math.cos(angle);
 				y = centerY + rate * radius * Math.sin(angle);
 								

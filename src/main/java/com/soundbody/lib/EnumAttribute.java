@@ -69,7 +69,8 @@ public enum EnumAttribute {
 	
 	public double getRate(EntityPlayer player) {
 		ExtendedPropertyPlayer property = (ExtendedPropertyPlayer) player.getExtendedProperties(Strings.extendedPropertiesKey);
-		return property.getAmount(this.factor_pos, this.factor_neg, this.operation);
+		double amount = property.getAmount(this.factor_pos, this.factor_neg, this.operation);
+		return (this.operation == 0)? 1 + amount / attribute.getDefaultValue() : 1 + amount;
 	}
 
 }
