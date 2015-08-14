@@ -1,5 +1,6 @@
 package com.soundbody.lib;
 
+import java.awt.Color;
 import java.util.UUID;
 
 import com.soundbody.configuration.Constants;
@@ -14,11 +15,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.config.Configuration;
 
 public enum EnumAttribute {
-	maxHealth(SharedMonsterAttributes.maxHealth, "MaxHP", 0xffff3333, "soundbody.maxhealth", "beb90ee1-f19c-4847-9458-084634f381ee", 1),
-	movementSpeed(SharedMonsterAttributes.movementSpeed, "Speed", 0xff8080ff, "soundbody.movespeed", "88c81e2b-a258-457b-92a4-64bd7dfd5607", 1),
-	attackDamage(SharedMonsterAttributes.attackDamage, "Damage", 0xffff8080, "soundbody.attackdamage", "b30c409a-f66a-4ee3-bb3c-cd2b679a3491", 1),
-	digspeedFactor(ModAttributes.digspeedFactor, "DigSp.", 0xff00ff00, "soundbody.digspeed", "801bc4dd-5bd9-4ad7-b85d-be00b9aa33f4", 0),
-	jumpFactor(ModAttributes.jumpFactor, "Jump", 0xffdddddd, "soundbody.jump", "06a19c5a-6687-4ee1-b9fb-5ddc3764fe84", 0);
+	maxHealth(SharedMonsterAttributes.maxHealth, "MaxHP", Color.red, "soundbody.maxhealth", "beb90ee1-f19c-4847-9458-084634f381ee", 1),
+	movementSpeed(SharedMonsterAttributes.movementSpeed, "Speed", Color.green, "soundbody.movespeed", "88c81e2b-a258-457b-92a4-64bd7dfd5607", 1),
+	attackDamage(SharedMonsterAttributes.attackDamage, "Damage", Color.blue, "soundbody.attackdamage", "b30c409a-f66a-4ee3-bb3c-cd2b679a3491", 1),
+	digspeedFactor(ModAttributes.digspeedFactor, "DigSp.", Color.yellow, "soundbody.digspeed", "801bc4dd-5bd9-4ad7-b85d-be00b9aa33f4", 0),
+	jumpFactor(ModAttributes.jumpFactor, "Jump", Color.lightGray, "soundbody.jump", "06a19c5a-6687-4ee1-b9fb-5ddc3764fe84", 0);
 	
 	private final IAttribute attribute;
 	private final String name;
@@ -29,10 +30,10 @@ public enum EnumAttribute {
 	private double factor_pos;
 	private double factor_neg;
 	
-	EnumAttribute(IAttribute attribute, String name, int color, String modifierName, String modifierUUIDStr, int operation) {
+	EnumAttribute(IAttribute attribute, String name, Color color, String modifierName, String modifierUUIDStr, int operation) {
 		this.attribute = attribute;
 		this.name = name;
-		this.color = color;
+		this.color = color.getRGB();
 		this.modifierName = modifierName;
 		this.modifierUUID = UUID.fromString(modifierUUIDStr);
 		this.operation = operation;
