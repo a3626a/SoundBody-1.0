@@ -29,15 +29,21 @@ public class ExtendedPropertyEventHandler {
 
 		FoodStats newStats = event.entityPlayer.getFoodStats();
 		int newFitness = oldFitnessLevel;
-		newStats.setFoodLevel(oldFoodLevel);
-		newStats.setFoodSaturationLevel(oldSaturationLevel);
+		int newFoodLevel = oldFoodLevel;
+		float newSaturationLevel = oldSaturationLevel;
+
+		int diff = 0;
+		
 		if (oldFoodLevel < 0.5 * oldMaxFoodLevel) {
-			int diff = (int) (0.5 * oldMaxFoodLevel) - oldFoodLevel;
-			newStats.setFoodLevel((int)(0.5*oldMaxFoodLevel));
-			newStats.setFoodSaturationLevel(oldSaturationLevel);
-			oldFitnessLevel-=diff;
+			diff = (int) (0.5 * oldMaxFoodLevel) - oldFoodLevel;
+			newFoodLevel = (int)(0.5*oldMaxFoodLevel);
+			newSaturationLevel = oldSaturationLevel;
 		}
-		oldFitnessLevel-=ExtendedPropertyPlayer.fitnessLossOnDeath;
+		
+		newFitness -= Math.max(diff, ExtendedPropertyPlayer.fitnessLossOnDeath);
+		
+		newStats.setFoodLevel(newFoodLevel);
+		newStats.setFoodSaturationLevel(newSaturationLevel);
 		propertyNew.setFitness(oldFitnessLevel);
 	}
 
