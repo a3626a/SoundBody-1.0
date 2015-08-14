@@ -15,6 +15,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 import com.soundbody.SoundBody;
 import com.soundbody.configuration.Constants;
 import com.soundbody.foodstats.ModFoodStats;
+import com.soundbody.lib.EnumAttribute;
 import com.soundbody.lib.Strings;
 import com.soundbody.modifiers.ModAttributes;
 import com.soundbody.network.PacketGeneralClient;
@@ -121,24 +122,8 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 		msg.setInt(fitness);
 		SoundBody.simpleChannel.sendTo(msg, MinecraftServer.getServer().getConfigurationManager().getPlayerByUUID(player.getUniqueID()));
 
-		player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_movementSpeed_uuid), Strings.modifier_movespeed_name, 0, 1));
-		player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(
-				new AttributeModifier(UUID.fromString(Strings.modifier_movementSpeed_uuid), Strings.modifier_movespeed_name, getAmount(Constants.movespeed_pos, Constants.movespeed_neg, 1), 1));
-
-		player.getEntityAttribute(SharedMonsterAttributes.maxHealth).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_maxHealth_uuid), Strings.modifier_maxHealth_name, 0, 1));
-		player.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(
-				new AttributeModifier(UUID.fromString(Strings.modifier_maxHealth_uuid), Strings.modifier_maxHealth_name, getAmount(Constants.maxhealth_pos, Constants.maxhealth_neg, 1), 1));
-
-		player.getEntityAttribute(SharedMonsterAttributes.attackDamage).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_attackdamage_uuid), Strings.modifier_attackdamage_name, 0, 1));
-		player.getEntityAttribute(SharedMonsterAttributes.attackDamage).applyModifier(
-				new AttributeModifier(UUID.fromString(Strings.modifier_attackdamage_uuid), Strings.modifier_attackdamage_name, getAmount(Constants.attackdamage_pos, Constants.attackdamage_neg, 1), 1));
-
-		player.getEntityAttribute(ModAttributes.digspeedFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, 0, 0));
-		player.getEntityAttribute(ModAttributes.digspeedFactor).applyModifier(
-				new AttributeModifier(UUID.fromString(Strings.modifier_digspeedFactor_uuid), Strings.modifier_digspeed_name, getAmount(Constants.digspeed_pos, Constants.digspeed_neg, 0), 0));
-
-		player.getEntityAttribute(ModAttributes.jumpFactor).removeModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, 0, 0));
-		player.getEntityAttribute(ModAttributes.jumpFactor).applyModifier(new AttributeModifier(UUID.fromString(Strings.modifier_jumpFactor_uuid), Strings.modifier_jump_name, getAmount(Constants.jump_pos, Constants.jump_neg, 0), 0));
+		for(EnumAttribute attribute : EnumAttribute.values())
+			attribute.resetAttribute(player, this);
 	}
 
 }

@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.soundbody.foodstats.ModFoodStats;
+import com.soundbody.lib.EnumAttribute;
 import com.soundbody.modifiers.ModAttributes;
 
 public class RenderFoodBarHandler extends Gui {
@@ -138,7 +139,7 @@ public class RenderFoodBarHandler extends Gui {
 								
 				if(flag)
 					drawLine(preX, preY, x, y, 0xffffffff);
-								
+				
 				preX = x;
 				preY = y;
 				
