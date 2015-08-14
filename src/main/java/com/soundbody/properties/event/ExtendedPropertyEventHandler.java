@@ -9,6 +9,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import com.soundbody.configuration.Constants;
 import com.soundbody.foodstats.ModFoodStats;
 import com.soundbody.lib.Strings;
 import com.soundbody.properties.ExtendedPropertyPlayer;
@@ -40,7 +41,7 @@ public class ExtendedPropertyEventHandler {
 			newSaturationLevel = oldSaturationLevel;
 		}
 		
-		newFitness -= Math.max(diff, ExtendedPropertyPlayer.fitnessLossOnDeath);
+		newFitness -= Math.max(diff, Constants.fitnessLoss);
 		
 		newStats.setFoodLevel(newFoodLevel);
 		newStats.setFoodSaturationLevel(newSaturationLevel);

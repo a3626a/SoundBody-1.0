@@ -7,6 +7,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;
 import net.minecraft.world.EnumDifficulty;
 
+import com.soundbody.configuration.Constants;
 import com.soundbody.lib.Strings;
 import com.soundbody.properties.ExtendedPropertyPlayer;
 
@@ -17,7 +18,6 @@ public class ModFoodStats extends FoodStats {
 	private static Field prevFoodLevel;
 	private static Field foodExhaustionLevel;
 	private static Field foodTimer;
-	private static double factor = Math.log(2) / 20.0;
 
 	public ModFoodStats(EntityPlayer player, FoodStats foodStats) throws NoSuchFieldException, SecurityException {
 		this.player = player;
@@ -53,6 +53,9 @@ public class ModFoodStats extends FoodStats {
 
 	@Override
 	public void addExhaustion(float p_75113_1_) {
+		double factor;
+		if (property.getFitness()>0) factor=Constants.foodusage_pos;
+		else factor=Constants.foodusage_neg;
 		super.addExhaustion((float) (p_75113_1_ * Math.exp(factor * property.getFitness())));
 	}
 
@@ -105,16 +108,13 @@ public class ModFoodStats extends FoodStats {
         {
         	initFoodTimer();
         }
-		
-		if (player.worldObj.getWorldTime() % 60 == 0) {
-			System.out.println(getFoodLevel() + " / " + getMaxFoodLevel());
-			System.out.println(getSaturationLevel() + " / " + getFoodLevel());
-			System.out.println(getFoodLevel() + " : " + property.getFitness());
-		}
 	}
 
 	public int getMaxFoodLevel() {
-		return (int) (20*Math.exp(factor * property.getFitness()));
+		double factor;
+		if (property.getFitness()>0) factor = Constants.maxfood_pos;
+		else factor = Constants.maxfood_neg;
+		return (int) (20*Math.exp(factor*property.getFitness()));
 	}
 	
 	public void setPrevFoodLevel(int level) {

@@ -1,17 +1,12 @@
 package com.soundbody.modifiers;
 
-import java.util.UUID;
-
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import com.soundbody.lib.Strings;
-import com.soundbody.properties.ExtendedPropertyPlayer;
 
 public class AttributeEventHandler {
 
@@ -36,4 +31,5 @@ public class AttributeEventHandler {
 			player.motionY *= Math.sqrt(player.getEntityAttribute(ModAttributes.jumpFactor).getAttributeValue());
 		}
 	}
+
 }
