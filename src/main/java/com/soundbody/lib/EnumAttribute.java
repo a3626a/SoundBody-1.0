@@ -3,16 +3,16 @@ package com.soundbody.lib;
 import java.awt.Color;
 import java.util.UUID;
 
-import com.soundbody.configuration.Constants;
-import com.soundbody.modifiers.ModAttributes;
-import com.soundbody.properties.ExtendedPropertyPlayer;
-
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
+
+import com.soundbody.modifiers.ModAttributes;
+import com.soundbody.properties.ExtendedPropertyPlayer;
 
 public enum EnumAttribute {
 	maxHealth(SharedMonsterAttributes.maxHealth, "MaxHP", "health", Color.red, "soundbody.maxhealth", "beb90ee1-f19c-4847-9458-084634f381ee", 1),
@@ -50,6 +50,16 @@ public enum EnumAttribute {
 	public int getColor() {
 		return this.color;
 	}
+	
+	
+	public ResourceLocation getGuiTexture() {
+		return new ResourceLocation(SBReferences.MODID, "textures/gui/guiattributeicon_" + this.textureName + ".png");
+	}
+	
+	public ResourceLocation getBarTexture() {
+		return new ResourceLocation(SBReferences.MODID, "textures/gui/guibar_" + this.textureName + ".png");
+	}
+
 	
 	
 	public void readFromConfiguration(Configuration config, String category) {

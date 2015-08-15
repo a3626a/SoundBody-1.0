@@ -114,68 +114,75 @@ public class RenderFoodBarHandler extends Gui {
 			Minecraft mc = Minecraft.getMinecraft();
 			EntityPlayer player = mc.thePlayer;
 			
-			this.drawAttributebarAt(player.getEntityAttribute(SharedMonsterAttributes.movementSpeed), mc, "Speed", 0, 0, 50, 8, 0xff8080ff);
-			this.drawAttributebarAt(player.getEntityAttribute(SharedMonsterAttributes.attackDamage), mc, "Damage", 0, 8, 50, 8, 0xffff8080);
-			this.drawAttributebarAt(player.getEntityAttribute(ModAttributes.digspeedFactor), mc, "DigSp", 0, 16, 50, 8, 0xff00ff00);
-			this.drawAttributebarAt(player.getEntityAttribute(ModAttributes.jumpFactor), mc, "Jump", 0, 24, 50, 8, 0xffdddddd);
-			
-			double centerX = 50.0;
-			double centerY = 50.0;
-			double radius = 30.0;
-			double angle = 0.0;
-			double x = 0.0, y = 0.0;
-			double preX = 0.0, preY = 0.0;
-			double rate;
-			boolean flag = false;
-						
-			for(EnumAttribute attribute : EnumAttribute.values()) {
-				rate = attribute.getRate(player);
+			this.renderAttributeBars(player, mc, 0, 0, 50, 8);
+			this.renderAttributePolygon(player, mc, 50.0, 80.0, 30.0);
+		}
+	}
 
-				x = centerX + rate * radius * Math.cos(angle);
-				y = centerY + rate * radius * Math.sin(angle);
-								
-				angle += 2 * Math.PI / EnumAttribute.values().length;
-								
-				if(flag)
-					drawLine(preX, preY, x, y, 0xffffffff);
-				
-				preX = x;
-				preY = y;
-				
-				flag = true;
-			}
+	private void renderAttributeBars(EntityPlayer player, Minecraft mc, int left, int top, int width, int height) {
+		int left2 = left + 35;
+		
+		for(EnumAttribute attribute : EnumAttribute.values()) {
+			this.drawCenteredString(mc.fontRendererObj, attribute.getName(), left + 17, top, attribute.getColor());
 			
-			EnumAttribute attribute2 = EnumAttribute.values()[0];
-			rate = attribute2.getRate(player);
-			x = centerX + rate * radius * Math.cos(angle);
-			y = centerY + rate * radius * Math.sin(angle);
+			mc.renderEngine.bindTexture(attribute.getBarTexture());
+			this.drawTexturedRect(left2, top, (int) (width * attribute.getRate(player)), height);
 			
-			drawLine(preX, preY, x, y, 0xffffffff);
-			
-			
-			for(EnumAttribute attribute : EnumAttribute.values()) {
-				rate = attribute.getRate(player);
-				
-				x = centerX + rate * (radius+2.0) * Math.cos(angle);
-				y = centerY + rate * (radius+2.0) * Math.sin(angle);
-				
-				drawRect((int)(x-3), (int)(y-3), (int)(x+3), (int)(y+3), attribute.getColor());
-				this.drawCenteredString(mc.fontRendererObj, attribute.getName(), (int)x, (int)y, attribute.getColor());
-				
-				angle += 2 * Math.PI / EnumAttribute.values().length;
-			}
+			drawRect(left2 + width - 1, top, left2 + width + 1, top + height, 0x80000000);
+			top += height;
 		}
 	}
 	
-	public void drawAttributebarAt(IAttributeInstance attribute, Minecraft mc, String text, int left, int top, int width, int height, int color) {
-		double rate = attribute.getAttributeValue() / attribute.getBaseValue();
-		this.drawString(mc.fontRendererObj, text, left, top, color);
-		left += 20;
-		drawRect(left, top, left + (int) (width * rate), top + height, color);
-		drawRect(left + width - 1, top, left + width + 1, top + height, 0x80000000);
+	private void drawTexturedRect(int x, int y, int width, int height) {
+		this.drawModalRectWithCustomSizedTexture(x, y, 0.0f, 0.0f, width, height, width, height);
 	}
 	
-	public void drawLine(double x1, double y1, double x2, double y2, int color) {
+	private void renderAttributePolygon(EntityPlayer player, Minecraft mc, double centerX, double centerY, double radius) {
+		double angle = 0.0;
+		double x = 0.0, y = 0.0;
+		double preX = 0.0, preY = 0.0;
+		double rate;
+		boolean flag = false;
+					
+		for(EnumAttribute attribute : EnumAttribute.values()) {
+			rate = attribute.getRate(player);
+
+			x = centerX + rate * radius * Math.cos(angle);
+			y = centerY + rate * radius * Math.sin(angle);
+			
+			angle += 2 * Math.PI / EnumAttribute.values().length;
+							
+			if(flag)
+				drawLine(preX, preY, x, y, 0xffffffff);
+			
+			preX = x;
+			preY = y;
+			
+			flag = true;
+		}
+		
+		EnumAttribute attribute2 = EnumAttribute.values()[0];
+		rate = attribute2.getRate(player);
+		x = centerX + rate * radius * Math.cos(angle);
+		y = centerY + rate * radius * Math.sin(angle);
+		
+		drawLine(preX, preY, x, y, 0xffffffff);
+		
+		
+		for(EnumAttribute attribute : EnumAttribute.values()) {
+			rate = attribute.getRate(player);
+			
+			x = centerX + rate * (radius) * Math.cos(angle);
+			y = centerY + rate * (radius) * Math.sin(angle);
+			
+			mc.renderEngine.bindTexture(attribute.getGuiTexture());
+			this.drawTexturedRect((int)(x-8), (int)(y-8), 16, 16);
+			
+			angle += 2 * Math.PI / EnumAttribute.values().length;
+		}
+	}
+	
+	private void drawLine(double x1, double y1, double x2, double y2, int color) {
         double xd = y1 - y2;
         double yd = x2 - x1;
         double dist = Math.sqrt(xd * xd + yd * yd);
