@@ -23,7 +23,7 @@ public class ConfigurationHandler {
 	private static String KEY_MOD_FOOD_USAGE_POS = "Food Usage on Max Fitness";
 	private static String KEY_MOD_FOOD_USAGE_NEG = "Food Usage on Min Fitness";
 	private static String KEY_FITNESS_UPDATETICK = "Fitness Update Period in Minecraft Tick";
-	private static String KEY_FITNESS_LOSSONDEATH = "Fitness Loos on Death";
+	private static String KEY_FITNESS_LOSSONDEATH = "Fitness Loss on Death";
 	
 	private static String KEY_MOD_POS = " on Min Fitness";
 	private static String KEY_MOD_NEG = " on Min Fitness";
@@ -49,9 +49,9 @@ public class ConfigurationHandler {
 			Constants.maxfitness=0;
 		}
 		Constants.minfitness=config.get(CATEGORY_GENERAL, KEY_FITNESS_MIN, -20).getInt();
-		if (Constants.maxfitness>0) {
+		if (Constants.minfitness>0) {
 			SoundBody.logger.log(Level.SEVERE, "Min Fitness must be Negative. Automatically set to 0.");
-			Constants.maxfitness=0;
+			Constants.minfitness=0;
 		}
 		Constants.fitnessLoss=config.get(CATEGORY_GENERAL, KEY_FITNESS_UPDATETICK, 5*60*20).getInt();
 		

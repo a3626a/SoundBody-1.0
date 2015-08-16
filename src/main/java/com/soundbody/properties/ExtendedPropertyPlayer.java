@@ -48,6 +48,7 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	public void loadNBTData(NBTTagCompound compound) {
 		fitness = compound.getInteger("fitness");
 		fitnessCounter = compound.getInteger("fitnessCounter");
+		if (fitnessCounter>Constants.fitnessCounter) fitnessCounter=Constants.fitnessCounter;
 	}
 
 	@Override
