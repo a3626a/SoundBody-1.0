@@ -48,7 +48,8 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	public void loadNBTData(NBTTagCompound compound) {
 		fitness = compound.getInteger("fitness");
 		fitnessCounter = compound.getInteger("fitnessCounter");
-		if (fitnessCounter>Constants.fitnessCounter) fitnessCounter=Constants.fitnessCounter;
+		if (fitnessCounter > Constants.fitnessCounter)
+			fitnessCounter = Constants.fitnessCounter;
 	}
 
 	@Override
@@ -107,6 +108,10 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 	}
 
 	public void setFitness(int fitness) {
+		if (fitness > Constants.maxfitness)
+			fitness = Constants.maxfitness;
+		if (fitness < Constants.minfitness)
+			fitness = Constants.minfitness;
 		this.fitness = fitness;
 	}
 
@@ -118,12 +123,12 @@ public class ExtendedPropertyPlayer implements IExtendedEntityProperties {
 		fitness = packet.getInt();
 	}
 
-	private void sync() {
+	public void sync() {
 		PacketGeneralClient msg = new PacketGeneralClient(0);
 		msg.setInt(fitness);
 		SoundBody.simpleChannel.sendTo(msg, MinecraftServer.getServer().getConfigurationManager().getPlayerByUUID(player.getUniqueID()));
 
-		for(EnumAttribute attribute : EnumAttribute.values())
+		for (EnumAttribute attribute : EnumAttribute.values())
 			attribute.resetAttribute(player, this);
 	}
 

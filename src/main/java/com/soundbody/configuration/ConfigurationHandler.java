@@ -53,11 +53,11 @@ public class ConfigurationHandler {
 			SoundBody.logger.log(Level.SEVERE, "Min Fitness must be Negative. Automatically set to 0.");
 			Constants.minfitness=0;
 		}
-		Constants.fitnessLoss=config.get(CATEGORY_GENERAL, KEY_FITNESS_UPDATETICK, 5*60*20).getInt();
+		Constants.fitnessLoss=config.get(CATEGORY_GENERAL, KEY_FITNESS_LOSSONDEATH, 2).getInt();
 		
-		Constants.fitnessCounter=config.get(CATEGORY_GENERAL, KEY_FITNESS_LOSSONDEATH, 2).getInt();
+		Constants.fitnessCounter=config.get(CATEGORY_GENERAL, KEY_FITNESS_UPDATETICK, 5*60*20).getInt();
 		if (Constants.fitnessCounter<0) {
-			SoundBody.logger.log(Level.SEVERE, "Fitness Loos on Death must be Positive. Automatically set to 0.");
+			SoundBody.logger.log(Level.SEVERE, "Fitness Counter must be Positive. Automatically set to 0.");
 			Constants.fitnessCounter=0;
 		}
 		Constants.foodusage_pos=Math.log(config.get(CATEGORY_MOD, KEY_MOD_FOOD_USAGE_POS, 1.5).getDouble())/(double)Constants.maxfitness;
