@@ -25,7 +25,7 @@ public class ConfigurationHandler {
 	private static String KEY_FITNESS_UPDATETICK = "Fitness Update Period in Minecraft Tick";
 	private static String KEY_FITNESS_LOSSONDEATH = "Fitness Loss on Death";
 	
-	private static String KEY_MOD_POS = " on Min Fitness";
+	private static String KEY_MOD_POS = " on Max Fitness";
 	private static String KEY_MOD_NEG = " on Min Fitness";
 	
 	public void init(FMLPreInitializationEvent event) {
