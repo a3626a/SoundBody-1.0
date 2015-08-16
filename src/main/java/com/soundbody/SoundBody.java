@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.soundbody.client.RenderFoodBarHandler;
+import com.soundbody.configuration.ConfigurationHandler;
 import com.soundbody.foodstats.ModFoodStatsHandler;
 import com.soundbody.lib.SBReferences;
 import com.soundbody.modifiers.AttributeEventHandler;
@@ -36,6 +37,8 @@ public class SoundBody {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+    	ConfigurationHandler.getInstance().init(event);
+    	ConfigurationHandler.getInstance().sync();
     }
 	
     @EventHandler

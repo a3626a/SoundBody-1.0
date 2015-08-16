@@ -1,12 +1,12 @@
-package com.soundbody.configuration;
+ package com.soundbody.configuration;
 
 public class Constants {
-	public static double maxfood_pos = Math.log(1.5) / 20.0;
-	public static double maxfood_neg = Math.log(1.5) / 20.0;
-	public static double foodusage_pos = Math.log(1.5) / 20.0;
-	public static double foodusage_neg = Math.log(1.5) / 20.0;
-	public static int maxfitness=20;
-	public static int minfitness=-20;
-	public static int fitnessCounter=5*60*20;
-	public static int fitnessLoss=2;
+	public static double maxfood_pos;
+	public static double maxfood_neg;
+	public static double foodusage_pos;
+	public static double foodusage_neg;
+	public static int maxfitness;
+	public static int minfitness;
+	public static int fitnessCounter;
+	public static int fitnessLoss;
 }
