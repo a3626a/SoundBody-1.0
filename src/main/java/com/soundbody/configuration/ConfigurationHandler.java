@@ -29,7 +29,7 @@ public class ConfigurationHandler {
 	private static String KEY_MOD_NEG = " on Min Fitness";
 	
 	public void init(FMLPreInitializationEvent event) {
-		config = new Configuration(event.getModConfigurationDirectory());
+		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 	}
 	
@@ -68,7 +68,6 @@ public class ConfigurationHandler {
 			i.setFactorPos(config.get(CATEGORY_MOD, i.getName()+KEY_MOD_POS, 1.4).getDouble());
 			i.setFactorNeg(config.get(CATEGORY_MOD, i.getName()+KEY_MOD_NEG, 0.7).getDouble());
 		}
-		
 		config.save();
 	}
 	
