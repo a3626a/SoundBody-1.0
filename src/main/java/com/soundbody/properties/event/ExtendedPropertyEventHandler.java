@@ -45,7 +45,7 @@ public class ExtendedPropertyEventHandler {
 		
 		newStats.setFoodLevel(newFoodLevel);
 		newStats.setFoodSaturationLevel(newSaturationLevel);
-		propertyNew.setFitness(oldFitnessLevel);
+		propertyNew.setFitness(newFitness);
 	}
 
 	@SubscribeEvent
