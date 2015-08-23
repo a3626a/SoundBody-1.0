@@ -22,11 +22,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.google.common.collect.Lists;
 import com.soundbody.foodstats.ModFoodStats;
 import com.soundbody.lib.EnumAttribute;
+import com.soundbody.lib.SBReferences;
 
 public class RenderFoodBarHandler extends Gui {
 
 	public static int left_height = 39;
 	public static int right_height = 39;
+	private static ResourceLocation backgroundTexture = SBReferences.getResourceLocation("textures/gui/guibackground_cir.png");
 
 	@SubscribeEvent
 	public void renderFoodBar(RenderGameOverlayEvent.Pre event) {
@@ -185,7 +187,7 @@ public class RenderFoodBarHandler extends Gui {
 		}
 		
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 0.5f);
-		mc.renderEngine.bindTexture(new ResourceLocation("soundbody", "textures/gui/guibackground_cir.png"));
+		mc.renderEngine.bindTexture(this.backgroundTexture);
 		this.drawTexturedRect((int)(centerX - radius * 2.4), (int)(centerY - radius * 2.4), (int)(radius * 4.8), (int)(radius * 4.8));
 		
 		this.drawPolygon(attributeList, player, centerX, centerY, radius, exponent, 0xffffffff);
