@@ -6,6 +6,7 @@ import net.minecraft.util.FoodStats;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -15,7 +16,7 @@ import com.soundbody.lib.Strings;
 import com.soundbody.properties.ExtendedPropertyPlayer;
 
 public class ExtendedPropertyEventHandler {
-
+	
 	@SubscribeEvent
 	public void onEntityConing(PlayerEvent.Clone event) {
 		ExtendedPropertyPlayer propertyOld = (ExtendedPropertyPlayer) event.original.getExtendedProperties(Strings.extendedPropertiesKey);
@@ -41,11 +42,18 @@ public class ExtendedPropertyEventHandler {
 			newSaturationLevel = oldSaturationLevel;
 		}
 		
-		newFitness -= Math.max(diff, Constants.fitnessLoss);
+		newFitness -= diff + Constants.fitnessLoss;
 		
 		newStats.setFoodLevel(newFoodLevel);
 		newStats.setFoodSaturationLevel(newSaturationLevel);
-		propertyNew.setFitness(oldFitnessLevel);
+		propertyNew.setFitness(newFitness);
+		
+		propertyNew.sync();
+		
+		EntityPlayer player = (EntityPlayer)event.entityLiving;
+		player.setHealth(player.getMaxHealth());
+		
+		
 	}
 
 	@SubscribeEvent
