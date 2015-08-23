@@ -1,24 +1,27 @@
 package com.soundbody.client;
 
+import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import com.google.common.collect.Lists;
 import com.soundbody.foodstats.ModFoodStats;
 import com.soundbody.lib.EnumAttribute;
-import com.soundbody.modifiers.ModAttributes;
 
 public class RenderFoodBarHandler extends Gui {
 
@@ -114,21 +117,37 @@ public class RenderFoodBarHandler extends Gui {
 			Minecraft mc = Minecraft.getMinecraft();
 			EntityPlayer player = mc.thePlayer;
 			
-			this.renderAttributeBars(player, mc, 0, 0, 50, 8);
-			this.renderAttributePolygon(player, mc, 50.0, 80.0, 30.0);
+			float tick = mc.theWorld.getWorldTime() + event.partialTicks;
+			
+			float rotationAngle = (float) (- Math.PI / 2 + tick / 20.0);
+			
+			double maxRate = 0.0;
+			List<EnumAttribute> attributeList = EnumAttribute.getEnabledAttributeList();
+			
+			if(attributeList.isEmpty())
+				return;
+			
+			for(EnumAttribute attribute : attributeList)
+				maxRate = Math.max(maxRate, attribute.getRate(player, 0));
+			
+			int exponent = Math.getExponent(maxRate);
+			
+			this.renderAttributeBars(player, mc, attributeList, exponent, 0, 0, 50, 8);
+			this.renderAttributePolygon(player, mc, attributeList, exponent, 50.0, 90.0, 40.0);
 		}
 	}
 
-	private void renderAttributeBars(EntityPlayer player, Minecraft mc, int left, int top, int width, int height) {
+	private void renderAttributeBars(EntityPlayer player, Minecraft mc, List<EnumAttribute> attributeList, int exponent, int left, int top, int width, int height) {
 		int left2 = left + 35;
 		
-		for(EnumAttribute attribute : EnumAttribute.values()) {
+		for(EnumAttribute attribute : attributeList) {
 			this.drawCenteredString(mc.fontRendererObj, attribute.getName(), left + 17, top, attribute.getColor());
 			
 			mc.renderEngine.bindTexture(attribute.getBarTexture());
-			this.drawTexturedRect(left2, top, (int) (width * attribute.getRate(player)), height);
+			this.drawTexturedRect(left2, top, (int) (width * attribute.getRate(player, exponent)), height);
 			
 			drawRect(left2 + width - 1, top, left2 + width + 1, top + height, 0x80000000);
+			//drawRect(left2 + 2*width - 1, top, left2 + 2*width + 1, top + height, 0xa0000000);
 			top += height;
 		}
 	}
@@ -137,23 +156,77 @@ public class RenderFoodBarHandler extends Gui {
 		this.drawModalRectWithCustomSizedTexture(x, y, 0.0f, 0.0f, width, height, width, height);
 	}
 	
-	private void renderAttributePolygon(EntityPlayer player, Minecraft mc, double centerX, double centerY, double radius) {
-		double angle = 0.0;
+	private void renderAttributePolygon(EntityPlayer player, Minecraft mc, List<EnumAttribute> attributeList, int exponent, double centerX, double centerY, double radius) {
+		double angle = -Math.PI / 2;
 		double x = 0.0, y = 0.0;
-		double preX = 0.0, preY = 0.0;
-		double rate;
+		double x2, y2;
+		double rate, maxRate = 0.0;
+		radius /= 2;
+		
+		List<IRenderRate> standardLineList = Lists.newArrayList();
+		List<IRenderRate> standardLineList2 = Lists.newArrayList();
+		
+		for(int i = 0; i < attributeList.size(); i++) {
+			standardLineList.add(new IRenderRate() {
+				@Override
+				public double getRate(EntityPlayer player, int exponent) {
+					return 1.0;
+				}
+			});
+		}
+		
+		for(int i = 0; i < attributeList.size(); i++) {
+			standardLineList2.add(new IRenderRate() {
+				@Override
+				public double getRate(EntityPlayer player, int exponent) {
+					return 2.0;
+				}
+			});
+		}
+		
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 0.5f);
+		mc.renderEngine.bindTexture(new ResourceLocation("soundbody", "textures/gui/guibackground_cir.png"));
+		this.drawTexturedRect((int)(centerX - radius * 2.4), (int)(centerY - radius * 2.4), (int)(radius * 4.8), (int)(radius * 4.8));
+		
+		this.drawPolygon(attributeList, player, centerX, centerY, radius, exponent, 0xffffffff);
+		this.drawPolygon(standardLineList, player, centerX, centerY, radius, exponent, 0xddaaaaaa);
+		this.drawPolygon(standardLineList2, player, centerX, centerY, radius, exponent, 0xdd555555);
+		
+		for(EnumAttribute attribute : attributeList) {
+			rate = attribute.getRate(player, exponent);
+			
+			x2 = centerX + 1.9 * radius * Math.cos(angle);
+			y2 = centerY + 1.9 * radius * Math.sin(angle);
+			
+			this.drawLine(centerX, centerY, x2, y2, 0xddcccccc);
+			
+			x = centerX + rate * (radius) * Math.cos(angle);
+			y = centerY + rate * (radius) * Math.sin(angle);
+			
+			GlStateManager.color(1.0f, 1.0f, 1.0f);
+			mc.renderEngine.bindTexture(attribute.getGuiTexture());
+			this.drawTexturedRect((int)(x-8), (int)(y-8), 16, 16);
+			
+			angle += 2 * Math.PI / attributeList.size();
+		}
+	}
+	
+	private void drawPolygon(List<? extends IRenderRate> rateList, EntityPlayer player, double centerX, double centerY, double radius, int exponent, int color) {
+		double rate, angle = -Math.PI / 2;
 		boolean flag = false;
-					
-		for(EnumAttribute attribute : EnumAttribute.values()) {
-			rate = attribute.getRate(player);
-
+		double preX = 0.0, preY = 0.0;
+		double x, y;
+		
+		for(IRenderRate renderRate : rateList) {
+			rate = renderRate.getRate(player, exponent);
+			
 			x = centerX + rate * radius * Math.cos(angle);
 			y = centerY + rate * radius * Math.sin(angle);
 			
-			angle += 2 * Math.PI / EnumAttribute.values().length;
-							
+			angle += 2 * Math.PI / rateList.size();
+			
 			if(flag)
-				drawLine(preX, preY, x, y, 0xffffffff);
+				drawLine(preX, preY, x, y, color);
 			
 			preX = x;
 			preY = y;
@@ -161,25 +234,12 @@ public class RenderFoodBarHandler extends Gui {
 			flag = true;
 		}
 		
-		EnumAttribute attribute2 = EnumAttribute.values()[0];
-		rate = attribute2.getRate(player);
+		IRenderRate firstRate = rateList.get(0);
+		rate = firstRate.getRate(player, exponent);
 		x = centerX + rate * radius * Math.cos(angle);
 		y = centerY + rate * radius * Math.sin(angle);
 		
-		drawLine(preX, preY, x, y, 0xffffffff);
-		
-		
-		for(EnumAttribute attribute : EnumAttribute.values()) {
-			rate = attribute.getRate(player);
-			
-			x = centerX + rate * (radius) * Math.cos(angle);
-			y = centerY + rate * (radius) * Math.sin(angle);
-			
-			mc.renderEngine.bindTexture(attribute.getGuiTexture());
-			this.drawTexturedRect((int)(x-8), (int)(y-8), 16, 16);
-			
-			angle += 2 * Math.PI / EnumAttribute.values().length;
-		}
+		drawLine(preX, preY, x, y, color);
 	}
 	
 	private void drawLine(double x1, double y1, double x2, double y2, int color) {

@@ -1,6 +1,8 @@
 package com.soundbody.lib;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -11,10 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 
+import com.google.common.collect.Lists;
+import com.soundbody.client.IRenderRate;
 import com.soundbody.modifiers.ModAttributes;
 import com.soundbody.properties.ExtendedPropertyPlayer;
 
-public enum EnumAttribute {
+public enum EnumAttribute implements IRenderRate {
 	maxHealth(SharedMonsterAttributes.maxHealth, "MaxHP", "health", Color.red, "soundbody.maxhealth", "beb90ee1-f19c-4847-9458-084634f381ee", 1),
 	movementSpeed(SharedMonsterAttributes.movementSpeed, "Speed", "movespeed", Color.green, "soundbody.movespeed", "88c81e2b-a258-457b-92a4-64bd7dfd5607", 1),
 	attackDamage(SharedMonsterAttributes.attackDamage, "Damage", "attackdamage", Color.blue, "soundbody.attackdamage", "b30c409a-f66a-4ee3-bb3c-cd2b679a3491", 1),
@@ -30,6 +34,7 @@ public enum EnumAttribute {
 	private final int operation;
 	private double factor_pos;
 	private double factor_neg;
+	private boolean isEnabled = true;
 	
 	EnumAttribute(IAttribute attribute, String name, String textureName, Color color, String modifierName, String modifierUUIDStr, int operation) {
 		this.attribute = attribute;
@@ -63,6 +68,7 @@ public enum EnumAttribute {
 	
 	
 	public void readFromConfiguration(Configuration config, String category) {
+		this.isEnabled = config.get(category, "Enabled_" + this.name, true).getBoolean();
 		this.factor_pos = config.get(category, "PosFactor_" + this.name, this.factor_pos).getDouble();
 		this.factor_neg = config.get(category, "NegFactor_" + this.name , this.factor_neg).getDouble();
 	}
@@ -73,16 +79,31 @@ public enum EnumAttribute {
 	}
 	
 	public void resetAttribute(EntityPlayer player, ExtendedPropertyPlayer property) {
+		if(!this.isEnabled)
+			return;
+		
 		double amount = property.getAmount(this.factor_pos, this.factor_neg, this.operation);
 		
 		this.getAttributeInstance(player).removeModifier(new AttributeModifier(this.modifierUUID, this.modifierName, 0, this.operation));
 		this.getAttributeInstance(player).applyModifier(new AttributeModifier(this.modifierUUID, this.modifierName, amount, this.operation));
 	}
 	
-	public double getRate(EntityPlayer player) {
+	@Override
+	public double getRate(EntityPlayer player, int exponent) {
 		ExtendedPropertyPlayer property = (ExtendedPropertyPlayer) player.getExtendedProperties(Strings.extendedPropertiesKey);
 		double amount = property.getAmount(this.factor_pos, this.factor_neg, this.operation);
-		return (this.operation == 0)? 1 + amount / attribute.getDefaultValue() : 1 + amount;
+		return ((this.operation == 0)? 1 + amount / attribute.getDefaultValue() : 1 + amount) * Math.pow(2.0, -exponent);
+	}
+	
+	
+	public static List<EnumAttribute> getEnabledAttributeList() {
+		ArrayList<EnumAttribute> ret = Lists.newArrayList();
+		
+		for(EnumAttribute attribute : EnumAttribute.values())
+			if(attribute.isEnabled)
+				ret.add(attribute);
+		
+		return ret;
 	}
 
 }
