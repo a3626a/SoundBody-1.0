@@ -52,8 +52,6 @@ public class ExtendedPropertyEventHandler {
 		
 		EntityPlayer player = (EntityPlayer)event.entityLiving;
 		player.setHealth(player.getMaxHealth());
-		
-		
 	}
 
 	@SubscribeEvent
