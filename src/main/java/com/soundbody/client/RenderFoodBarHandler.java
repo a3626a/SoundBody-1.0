@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import scala.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,6 +21,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.google.common.collect.Lists;
+import com.soundbody.configuration.Constants;
 import com.soundbody.foodstats.ModFoodStats;
 import com.soundbody.lib.EnumAttribute;
 import com.soundbody.lib.SBReferences;
@@ -30,6 +32,8 @@ public class RenderFoodBarHandler extends Gui {
 	public static int right_height = 39;
 	private static ResourceLocation backgroundTexture = SBReferences.getResourceLocation("textures/gui/guibackground_cir.png");
 
+	private Random rand = new Random();
+	
 	@SubscribeEvent
 	public void renderFoodBar(RenderGameOverlayEvent.Pre event) {
 		if (event.type == ElementType.FOOD) {
@@ -37,11 +41,13 @@ public class RenderFoodBarHandler extends Gui {
 
 			right_height = 39;
 			left_height = 39;
-
+			
 			Minecraft mc = Minecraft.getMinecraft();
 			int width = event.resolution.getScaledWidth();
 			int height = event.resolution.getScaledHeight();
-
+			
+			rand.setSeed((long)(mc.ingameGUI.getUpdateCounter() * 312871));
+			
 			mc.mcProfiler.startSection("food");
 
 			GlStateManager.enableBlend();
@@ -86,13 +92,11 @@ public class RenderFoodBarHandler extends Gui {
 					backgound = 1; // Probably should be a += 1 but vanilla
 									// never uses this
 
-				/*
-				 * if (player.getFoodStats().getSaturationLevel() <= 0.0F &&
-				 * updateCounter % (level * 3 + 1) == 0) { y = top +
-				 * (rand.nextInt(3) - 1); }
-				 */
-				// This code make 'jumping' icons. but it is very difficult to
-				// define updateCounter... should do
+				
+				if (mc.thePlayer.getFoodStats().getSaturationLevel() <= 0.0F && mc.ingameGUI.getUpdateCounter() % (level * 3 + 1) == 0)
+				{
+					y = top + (rand.nextInt(3) - 1);
+				}
 
 				drawTexturedModalRect(x, y, 16 + backgound * 9, 27, 9, 9);
 
@@ -134,8 +138,10 @@ public class RenderFoodBarHandler extends Gui {
 			
 			int exponent = Math.getExponent(maxRate);
 			
-			this.renderAttributeBars(player, mc, attributeList, exponent, 0, 0, 50, 8);
-			this.renderAttributePolygon(player, mc, attributeList, exponent, 50.0, 90.0, 40.0);
+			if(Constants.guiBarEnabled)
+				this.renderAttributeBars(player, mc, attributeList, exponent, 0, 0, 50, 8);
+			if(Constants.guiPolygonEnabled)
+				this.renderAttributePolygon(player, mc, attributeList, exponent, 50.0, 90.0, 40.0);
 		}
 	}
 

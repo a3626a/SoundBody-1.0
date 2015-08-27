@@ -24,7 +24,7 @@ import com.soundbody.network.PacketGeneralClient;
 import com.soundbody.network.PacketGeneralServer;
 import com.soundbody.properties.event.ExtendedPropertyEventHandler;
 
-@Mod(modid = SBReferences.MODID, name = SBReferences.NAME, version = SBReferences.VERSION, canBeDeactivated = true)
+@Mod(modid = SBReferences.MODID, name = SBReferences.NAME, version = SBReferences.VERSION, guiFactory="com.soundbody.configuration.ConfigGuiFactory")
 public class SoundBody {
 	
 	@Instance(SBReferences.MODID)

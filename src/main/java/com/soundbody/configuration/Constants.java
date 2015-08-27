@@ -9,4 +9,7 @@ public class Constants {
 	public static int minfitness;
 	public static int fitnessCounter;
 	public static int fitnessLoss;
+	
+	public static boolean guiBarEnabled;
+	public static boolean guiPolygonEnabled;
 }

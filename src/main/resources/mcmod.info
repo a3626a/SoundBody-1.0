@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "soundbody",
+  "name": "Sound Body",
+  "description": "Food changes your body, and it changes your ability.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["LeeChangHwan", "Abastro"],
+  "credits": "CCL by-sa",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
