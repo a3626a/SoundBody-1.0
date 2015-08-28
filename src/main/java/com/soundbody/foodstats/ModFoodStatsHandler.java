@@ -10,11 +10,17 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class ModFoodStatsHandler {
 	
+	private static Field foodStats;
+	
+	public static void init() {
+		foodStats = ReflectionHelper.findField(EntityPlayer.class, ObfuscationReflectionHelper.remapFieldNames(EntityPlayer.class.getName(), "foodStats", "field_71100_bB"));
+	}
+	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityJoinWorldEvent event) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)event.entity;
-			ObfuscationReflectionHelper.setPrivateValue(EntityPlayer.class, player, new ModFoodStats(player, player.getFoodStats()), "foodStats");
+			foodStats.set(player, new ModFoodStats(player, player.getFoodStats()));
 		}
 	}
 	

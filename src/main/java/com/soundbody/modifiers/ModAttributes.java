@@ -18,7 +18,7 @@ public class ModAttributes {
 	public static IAttribute jumpFactor = new RangedAttribute((IAttribute)null, Strings.attribute_jumpfactor_name, 1.0, 0.0, Double.MAX_VALUE).setShouldWatch(true);
 	static {
 		try {
-			((RangedAttribute)ObfuscationReflectionHelper.getPrivateValue(SharedMonsterAttributes.class, null, "attackDamage")).setShouldWatch(true);
+			((RangedAttribute)ObfuscationReflectionHelper.getPrivateValue(SharedMonsterAttributes.class, null, "attackDamage", "field_111264_e")).setShouldWatch(true);
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
