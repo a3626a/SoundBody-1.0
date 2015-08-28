@@ -44,8 +44,6 @@ public class SoundBody {
     @EventHandler
     public void init(FMLInitializationEvent event) throws NoSuchFieldException, SecurityException
     {
-    	ModFoodStatsHandler.init();
-    	
     	MinecraftForge.EVENT_BUS.register(new AttributeEventHandler());
     	MinecraftForge.EVENT_BUS.register(new ExtendedPropertyEventHandler());
     	MinecraftForge.EVENT_BUS.register(new ModFoodStatsHandler());
