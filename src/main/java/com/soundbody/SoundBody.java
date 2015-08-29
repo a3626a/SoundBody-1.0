@@ -37,6 +37,7 @@ public class SoundBody {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+    	ModFoodStatsHandler.init();
     	ConfigurationHandler.getInstance().init(event);
     	ConfigurationHandler.getInstance().sync();
     }
